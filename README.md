@@ -8,12 +8,12 @@ A **fully local, offline** Large Language Model for teaching computer science co
 
 ## Features
 
-- **Concept Explanations** - Clear, level-appropriate explanations of CS topics
-- **Practice Problems** - Generate custom problems with hints and solutions
-- **Interactive Quizzes** - Test your knowledge with generated quiz questions
-- **Answer Grading** - Get detailed feedback on your answers
-- **Fully Offline** - Runs entirely on your local machine
-- **Efficient** - Supports 4-bit/8-bit quantization for fast inference
+- Concept Explanations
+- Practice Problems
+- Interactive Quizzes
+- Answer Grading
+- Fully Offline
+- Efficient
 
 ## Architecture
 
@@ -33,51 +33,6 @@ A **fully local, offline** Large Language Model for teaching computer science co
 │  └─────────────┘  └─────────────┘  └─────────────┘          │
 └─────────────────────────────────────────────────────────────┘
 ```
-
-## Project Structure
-
-```
-minillm/
-├── configs/                    # Configuration files
-│   ├── model_configs.yaml      # Model architecture configs
-│   ├── training_config.yaml    # Training hyperparameters
-│   └── quantization_config.yaml
-├── data/
-│   └── examples/               # Example training data
-│       ├── concept_explanations.jsonl
-│       ├── practice_problems.jsonl
-│       ├── quizzes.jsonl
-│       └── grading.jsonl
-├── scripts/
-│   ├── train.py               # Full training script
-│   ├── finetune_lora.py       # LoRA fine-tuning
-│   └── quantize.py            # Quantization script
-├── src/
-│   ├── model/                 # Model architecture
-│   │   ├── config.py          # Model configuration
-│   │   ├── layers.py          # Transformer layers
-│   │   ├── model.py           # Main model class
-│   │   └── tokenizer.py       # BPE tokenizer
-│   ├── data/                  # Data processing
-│   │   ├── schema.py          # Dataset schema
-│   │   └── dataset.py         # PyTorch datasets
-│   ├── training/              # Training pipeline
-│   │   └── trainer.py         # Trainer class
-│   ├── lora/                  # LoRA fine-tuning
-│   │   └── lora.py            # LoRA implementation
-│   ├── quantization/          # Quantization
-│   │   └── quantize.py        # INT8/INT4/GGUF
-│   ├── inference/             # Inference engine
-│   │   └── engine.py          # High-level API
-│   └── cli/                   # CLI application
-│       └── app.py             # Typer CLI
-├── tutor.py                   # CLI entry point
-├── requirements.txt
-├── setup.py
-└── README.md
-```
-
-## Quick Start
 
 ### Installation
 
@@ -115,14 +70,6 @@ tutor grade --question "What is a hash table?" --answer "A data structure..."
 # Interactive chat
 tutor chat
 ```
-
-## Model Configurations
-
-| Size | Params | Hidden | Layers | Heads | VRAM (FP16) | VRAM (4-bit) |
-|------|--------|--------|--------|-------|-------------|--------------|
-| 125M | 125M   | 768    | 12     | 12    | ~500 MB     | ~100 MB      |
-| 300M | 300M   | 1024   | 24     | 16    | ~1.2 GB     | ~250 MB      |
-| 1B   | 1B     | 2048   | 24     | 32    | ~4 GB       | ~800 MB      |
 
 ## Dataset Format
 
@@ -177,14 +124,6 @@ tutor chat
 }
 ```
 
-## Performance Tips
-
-1. **Use Quantization**: 4-bit quantization reduces memory by 4x with minimal quality loss
-2. **Enable Flash Attention**: Set `use_flash_attention: true` for faster training
-3. **Gradient Checkpointing**: Trades compute for memory on larger models
-4. **LoRA Fine-tuning**: Fine-tune with only ~1% of parameters
-
-## Example Outputs
 
 ### Concept Explanation
 
@@ -242,21 +181,10 @@ and at each level, all n elements are processed during the merge step.
 This gives O(n * log n) = O(n log n).
 ```
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgments
 
 - Inspired by LLaMA, GPT-2, and modern transformer architectures
 - Built with PyTorch, Typer, and Rich
