@@ -1,0 +1,87 @@
+# Quantization Configuration for CS Tutor LLM
+# Supports 8-bit, 4-bit, and GGUF export
+
+# ============================================
+# 8-bit Quantization (bitsandbytes)
+# ============================================
+int8:
+  enabled: true
+  load_in_8bit: true
+  llm_int8_threshold: 6.0
+  llm_int8_skip_modules: ["lm_head"]
+  llm_int8_enable_fp32_cpu_offload: false
+  llm_int8_has_fp16_weight: false
+
+# ============================================
+# 4-bit Quantization (bitsandbytes NF4/FP4)
+# ============================================
+int4:
+  enabled: true
+  load_in_4bit: true
+  bnb_4bit_compute_dtype: "bfloat16"  # or float16
+  bnb_4bit_quant_type: "nf4"  # nf4 or fp4
+  bnb_4bit_use_double_quant: true
+
+# ============================================
+# GPTQ Quantization
+# ============================================
+gptq:
+  enabled: false
+  bits: 4
+  group_size: 128
+  damp_percent: 0.01
+  desc_act: true
+  static_groups: false
+  sym: true
+  true_sequential: true
+
+# ============================================
+# AWQ Quantization
+# ============================================
+awq:
+  enabled: false
+  bits: 4
+  group_size: 128
+  zero_point: true
+
+# ============================================
+# GGUF Export Configuration
+# ============================================
+gguf:
+  enabled: true
+  output_dir: "outputs/gguf"
+  
+  # Quantization types to export
+  quant_types:
+    - "q4_0"      # 4-bit, fast
+    - "q4_k_m"    # 4-bit k-quant medium, good balance
+    - "q5_k_m"    # 5-bit k-quant medium, better quality
+    - "q8_0"      # 8-bit, highest quality
+  
+  # llama.cpp specific settings
+  use_vocab_type: "bpe"
+  context_length: 2048
+
+# ============================================
+# Inference Backend Selection
+# ============================================
+inference_backend:
+  # Options: pytorch, llama_cpp, onnx, tensorrt
+  default: "llama_cpp"
+  
+  pytorch:
+    device: "auto"  # auto, cuda, mps, cpu
+    torch_dtype: "auto"
+    
+  llama_cpp:
+    n_ctx: 2048
+    n_batch: 512
+    n_threads: 4
+    n_gpu_layers: -1  # -1 = all layers on GPU
+    use_mlock: true
+    use_mmap: true
+    
+  onnx:
+    optimization_level: 3
+    enable_profiling: false
+

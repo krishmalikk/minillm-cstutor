@@ -1,0 +1,101 @@
+# Model Configuration File for CS Tutor LLM
+# Supports multiple model sizes: 125M, 300M, 1B parameters
+
+# ============================================
+# 125M Parameter Model (Recommended for prototyping)
+# ============================================
+model_125m:
+  name: "cs-tutor-125m"
+  architecture: "gpt-decoder"
+  
+  # Model dimensions
+  vocab_size: 32000
+  max_seq_length: 2048
+  hidden_size: 768
+  intermediate_size: 3072  # 4x hidden_size
+  num_hidden_layers: 12
+  num_attention_heads: 12
+  head_dim: 64  # hidden_size / num_attention_heads
+  
+  # Positional encoding
+  position_embedding_type: "rotary"  # RoPE
+  rope_theta: 10000.0
+  
+  # Normalization
+  norm_type: "rmsnorm"
+  norm_eps: 1.0e-6
+  
+  # Dropout (set to 0 for inference)
+  hidden_dropout: 0.1
+  attention_dropout: 0.1
+  
+  # Activation
+  hidden_activation: "silu"  # SwiGLU
+  
+  # Initialization
+  initializer_range: 0.02
+  
+  # Training
+  tie_word_embeddings: true
+
+# ============================================
+# 300M Parameter Model (Balanced)
+# ============================================
+model_300m:
+  name: "cs-tutor-300m"
+  architecture: "gpt-decoder"
+  
+  vocab_size: 32000
+  max_seq_length: 2048
+  hidden_size: 1024
+  intermediate_size: 4096
+  num_hidden_layers: 24
+  num_attention_heads: 16
+  head_dim: 64
+  
+  position_embedding_type: "rotary"
+  rope_theta: 10000.0
+  
+  norm_type: "rmsnorm"
+  norm_eps: 1.0e-6
+  
+  hidden_dropout: 0.1
+  attention_dropout: 0.1
+  
+  hidden_activation: "silu"
+  initializer_range: 0.02
+  tie_word_embeddings: true
+
+# ============================================
+# 1B Parameter Model (Full capability)
+# ============================================
+model_1b:
+  name: "cs-tutor-1b"
+  architecture: "gpt-decoder"
+  
+  vocab_size: 32000
+  max_seq_length: 4096
+  hidden_size: 2048
+  intermediate_size: 5632  # ~2.75x for SwiGLU efficiency
+  num_hidden_layers: 24
+  num_attention_heads: 32
+  head_dim: 64
+  
+  position_embedding_type: "rotary"
+  rope_theta: 10000.0
+  
+  norm_type: "rmsnorm"
+  norm_eps: 1.0e-6
+  
+  hidden_dropout: 0.05
+  attention_dropout: 0.05
+  
+  hidden_activation: "silu"
+  initializer_range: 0.02
+  tie_word_embeddings: true
+
+# ============================================
+# Default model selection
+# ============================================
+default_model: "model_125m"
+
